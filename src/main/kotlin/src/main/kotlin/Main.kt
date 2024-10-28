@@ -3,7 +3,15 @@ package org.example
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
-    ej9Primos()
+
+    val inventario = mutableListOf<Videojuego>()
+    val juego2 = Videojuego("Dragon Age: Origins", "PC", 1500.00)
+    val juego3 = Videojuego("Phasmophobia", "PC", 352.0)
+    val juego4 = Videojuego("Baldur's Gate 3", "PC", 2000.0)
+
+    inventario.add(juego2)
+    inventario.add(juego3)
+    ej14InventarioVideoj(inventario, juego4)
 }
 
 fun ej1Saludo(){
@@ -158,6 +166,141 @@ fun ej9Primos(){
     if (contador > 2){ println("El número no es primo.") } else{ println("El número es primo.") }
 }
 
-fun ej10Fibonacci(){
+fun ej10Temperaturas(){
+
+    println("Por favor, introduzca la temperatura en ºC: ")
+    var input: Int? = null
+
+    while (input == null){
+        println("Por favor, introduzca un número")
+        input = readln().toIntOrNull()
+    }
+
+    println("Se está convirtiendo la temperatura a ºF . . .")
+    val temperaturaAFahrenheit = input * 9/5 + 32
+
+    println("La temperatura $input ºC en Fahrenheit será: $temperaturaAFahrenheit ºF.")
+
+    println("Por favor, introduzca la temperatura en ºF: ")
+    var input2: Int? = null
+
+    while (input2 == null){
+        println("Por favor, introduzca un número")
+        input2 = readln().toIntOrNull()
+    }
+
+    println("Se está convirtiendo la temperatura a ºC . . .")
+    val temperaturaACentigrados = (input2 - 32) * 5/9
+
+    println("La temperatura $input2 ºF en Centígrados será: $temperaturaACentigrados ºC.")
+
+
 
 }
+
+fun ej11Fibonacci(){
+
+    var input: Int? = null
+    val listaNumsFibo: MutableList<Int> = mutableListOf()
+
+    while (input == null){
+        println("Por favor, introduzca un número: ")
+        input = readln().toIntOrNull()
+    }
+
+    if (input >= 0) { listaNumsFibo.add(0) }
+    if (input >= 1) { listaNumsFibo.add(1) }
+
+    for (i in 2..input){
+
+        val nextNum = listaNumsFibo[i-1] + listaNumsFibo[i-2]
+        listaNumsFibo.add(nextNum)
+    }
+    println(listaNumsFibo)
+}
+
+fun ej12NumInverso(){
+
+    var input: Int? = null
+
+    while (input == null){
+        println("Por favor, introduzca un número: ")
+        input = readln().toIntOrNull()
+    }
+    val numInvertido = input.toString().reversed()
+    println("Su número $input al revés será $numInvertido.")
+}
+
+fun ej13ClaseAnime(){
+
+    println("Por favor, introduzca el nombre del anime: ")
+    val nameAnim = readln()
+
+
+    var episodesAnim: Int? = null
+
+    while (episodesAnim == null){
+        println("Por favor, introduzca el número de episodios: ")
+        episodesAnim = readln().toIntOrNull()
+    }
+
+    println("Por favor, introduzca el género del anime: ")
+    val genreAnim = readln()
+
+    val anime = Anime(nameAnim, episodesAnim, genreAnim)
+
+    println("El anime ${anime.name} tiene ${anime.episodes} episodios y es del género ${anime.genre}.")
+}
+
+data class Anime(val name: String, val episodes: Int, val genre: String)
+
+
+fun ej14InventarioVideoj(inventario: MutableList<Videojuego>, item: Videojuego){
+
+    val juego1 = Videojuego("World of Warcraft", "PC", 3000.59)
+    val juego2 = Videojuego("Dragon Age: Origins", "PC", 1500.00)
+    val juego3 = Videojuego("Phasmophobia", "PC", 352.0)
+
+    inventario.add(juego1)
+    inventario.add(juego2)
+    inventario.add(juego3)
+
+    println("Te han comprado una copia de ${item.titulo}!!! Qué deseas hacer con ella????")
+
+
+    println("Por favor seleccione una opción: ")
+    println("1. Añadir videojuego")
+    println("2. Eliminar videojuego")
+    println("3. Mostrar videojuegos")
+    val opcion = readln().toIntOrNull()
+
+    when (opcion) {
+        1 -> inventario.add(item)
+
+        2 -> {
+            if (inventario.isEmpty()){
+                println("El inventario de videojuegos está vacío.")
+            }
+            else{
+
+                println("Por favor, seleccione la opción a eliminar: ")
+                println(inventario)
+                inventario.forEachIndexed{ index, item ->
+                    println("${index + 1}. Remove: $item")
+                    val opcion1 = readln().toIntOrNull()
+                    if (opcion1 != null && opcion1 in 1..inventario.size) {
+                        inventario.removeAt(opcion1 - 1)
+                        println("El objeto ha sido eliminado con éxito.")
+                    }
+                    else{
+                        println("Opción no válida.")
+                    }
+                }
+            }
+        }
+        3 -> {
+            if (inventario.isEmpty()){ println("El inventario de videojuegos está vacío.") }
+            else { println(inventario) }}
+    }
+}
+data class Videojuego(val titulo: String, val plataforma: String, val horasJugadas: Double)
